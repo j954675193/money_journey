@@ -43,20 +43,19 @@ export default function Journal() {
     createdAt: new Date(),
     description: '',
     amount: 0,
-    category: {cateID:0, name: 'uncategorised'}
+    category: {cateID:'0', name: 'uncategorised'}
   })
 
   // Firebase stuff
   const moneyRef = firestore.collection('money');
-  const query = moneyRef.orderBy('createdAt', 'asc').limitToLast(100);
-  const [data] = useCollectionData(query, { idField: 'id' });
-  console.log(query)
+  const moneyQuery = moneyRef.orderBy('createdAt', 'asc').limitToLast(100);
+  const [data] = useCollectionData(moneyQuery, { idField: 'id' });
 
   const cateRef = firestore.collection('category')
-  const query2 = cateRef.orderBy('cateID')
-  const [data2] = useCollectionData(query2, { idField: 'id' });
+  const cateQuery = cateRef.orderBy('cateID')
+  const [data2] = useCollectionData(cateQuery, { idField: 'id' });
   const categories = data2
-  // console.log('hello',categories)
+  // console.log(categories) 
 
 
   console.log("REACT_APP_PROJECT_ID", process.env.REACT_APP_PROJECT_ID)
@@ -89,7 +88,7 @@ export default function Journal() {
     console.log('filter', obj)
     if (data) { // Guard condition      
       let t = 0
-      let filteredData = data.filter(d => obj.cateID == 0 || d.category.cateID == obj.cateID)
+      let filteredData = data.filter(d => obj.cateID == '0' || d.category.cateID == obj.cateID)
       let r = filteredData.map((d, i) => {
         console.log('filter', d)
         t += d.amount
@@ -114,7 +113,7 @@ export default function Journal() {
       createdAt: new Date(),
       description: '',
       amount: 0,
-      category:{cateID:0, name: 'uncategorised'}
+      category:{cateID:'0', name: 'uncategorised'}
     })
     setCategory({})
     setShowForm(false)

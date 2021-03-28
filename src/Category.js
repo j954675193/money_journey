@@ -41,12 +41,18 @@ export default function Category() {
   // Firebase stuff
   const cateRef = firestore.collection('category');
   const moneyRef = firestore.collection('money')
-  const query = cateRef.orderBy('cateID');
 
+  const query = cateRef.orderBy('cateID');
   const [data] = useCollectionData(query, { idField: 'id' });
   const [mj] = useCollectionData(moneyRef, { idField: 'id' });
-  // console.log(mj.length)
-  // const l = mj.length
+ 
+  const sampleQuery = moneyRef.where('category.id', '==', 'n4Nmrla755bfA0Ov0mRT')
+  const [sample] = useCollectionData(sampleQuery, {idField: 'id'})
+
+  // sample.forEach((v, i) => {
+  //   console.log(sample[i].id)
+  // })
+  
 
   useEffect(() => {
     if (data) { // Guard condition
@@ -118,20 +124,10 @@ export default function Category() {
     handleCloseForm()
   }
 
-  const handleDeleteClick = (id) => {
+  const handleDeleteClick =async (id) => {
     console.log('handleDeleteClick in Journal', id)
     if (window.confirm("Are you sure to delete this record?"))
       cateRef.doc(id).delete()
-    // console.log('cateid',cateID)
-
-    // var item 
-    // for(item in mj){
-    //   console.log(item.category.id)
-    //   if (item.category.id === id){
-    //     moneyRef.doc(item.id).set({category:{id:0, name:'uncategorised'}})
-    //   }
-    // }
-
 
   }
 
